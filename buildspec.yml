@@ -13,12 +13,15 @@ phases:
     commands:
       - echo "Building React app..."
       - npm run build
-  post_build:
+    post_build:
     commands:
+      - echo Checking if frontend/build exists...
+      - if (!(Test-Path frontend/build)) { Write-Error "Error: frontend/build does not exist! Build might have failed." }
       - echo Zipping files for deployment...
-      - powershell Compress-Archive -Path frontend/build/* -DestinationPath react-build.zip
-      - powershell Compress-Archive -Path appspec.yml, scripts/* -DestinationPath temp.zip
+      - powershell Compress-Archive -Path frontend/build -DestinationPath react-build.zip
+      - powershell Compress-Archive -Path appspec.yml, scripts -DestinationPath temp.zip
       - powershell Add-Type -A 'System.IO.Compression.FileSystem'; [System.IO.Compression.ZipFile]::Open("react-build.zip", "Update").CreateEntryFromFile("temp.zip", "temp.zip")
+
 artifacts:
   files:
     - react-build.zip
