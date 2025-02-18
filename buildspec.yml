@@ -16,8 +16,10 @@ phases:
   post_build:
     commands:
       - echo "Build complete"
+      - cd ..
+      - echo "Zipping build artifacts for CodeDeploy..."
+      - zip -r react-build.zip frontend/build appspec.yml scripts/
 artifacts:
   files:
-    - '**/*'
-  base-directory: frontend/build
+    - react-build.zip
   discard-paths: no

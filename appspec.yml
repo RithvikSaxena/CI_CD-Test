@@ -1,0 +1,14 @@
+version: 0.0
+os: windows
+files:
+  - source: /
+    destination: C:\Users\Administrator\nginx-1.27.4\nginx-1.27.4
+hooks:
+  BeforeInstall:
+    - location: scripts/install_dependencies.bat
+      timeout: 300
+      runas: Administrator
+  AfterInstall:
+    - location: scripts/restart_nginx.bat
+      timeout: 300
+      runas: Administrator
