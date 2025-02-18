@@ -15,11 +15,10 @@ phases:
       - npm run build
   post_build:
     commands:
-      - echo "Build complete"
-      - cd ..
-      - echo "Zipping build artifacts for CodeDeploy..."
-      - powershell Compress-Archive -Path frontend/build/*, appspec.yml, scripts/* -DestinationPath react-build.zip
-
+      - echo Zipping files for deployment...
+      - powershell Compress-Archive -Path frontend/build/* -DestinationPath react-build.zip
+      - powershell Compress-Archive -Path appspec.yml, scripts/* -DestinationPath temp.zip
+      - powershell Add-Type -A 'System.IO.Compression.FileSystem'; [System.IO.Compression.ZipFile]::Open("react-build.zip", "Update").CreateEntryFromFile("temp.zip", "temp.zip")
 artifacts:
   files:
     - react-build.zip

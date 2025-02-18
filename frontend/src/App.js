@@ -11,7 +11,7 @@ function App() {
 
   return (
     <div>
-      <h1>Frontend React App</h1>
+      <h1>Frontend React Application</h1>
       <p>Backend says: {message}</p>
     </div>
   );
