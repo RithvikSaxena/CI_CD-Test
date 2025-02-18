@@ -18,7 +18,8 @@ phases:
       - echo "Build complete"
       - cd ..
       - echo "Zipping build artifacts for CodeDeploy..."
-      - zip -r react-build.zip frontend/build appspec.yml scripts/
+      - powershell Compress-Archive -Path frontend/build/*, appspec.yml, scripts/* -DestinationPath react-build.zip
+
 artifacts:
   files:
     - react-build.zip
