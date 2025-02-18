@@ -15,17 +15,15 @@ phases:
       - cd frontend && npm run build
   post_build:
     commands:
-      - echo Checking if frontend/build exists...
-      - if (!(Test-Path frontend/build)) { Write-Error "Error: frontend/build does not exist! Build might have failed." }
-      - echo Zipping files for deployment...
+      - echo "Checking if frontend/build exists..."
+      - if (!(Test-Path frontend/build)) { Write-Error 'Error: frontend/build does not exist! Build might have failed.' }
+      - echo "Zipping files for deployment..."
       - powershell Compress-Archive -Path frontend/build/* -DestinationPath react-build.zip -Force
-      - powershell Compress-Archive -Path appspec.yml, scripts -DestinationPath temp.zip -Force
+      - powershell Compress-Archive -Path appspec.yml,scripts -DestinationPath temp.zip -Force
       - echo "Merging temp.zip into react-build.zip..."
-      - powershell Compress-Archive -Path react-build.zip, temp.zip -DestinationPath final-build.zip -Force
+      - powershell Compress-Archive -Path react-build.zip,temp.zip -DestinationPath final-build.zip -Force
       - echo "Checking if final-build.zip exists..."
       - ls -l final-build.zip
 
 artifacts:
-  files:
-    - final-build.zip
-  discard-paths: no
+  fil
